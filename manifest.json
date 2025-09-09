@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Answer Collapser",
+  "version": "1.0",
+  "description": "Collapse and index ChatGPT answers for easier navigation.",
+  "permissions": ["scripting", "activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["https://chat.openai.com/*", "https://chatgpt.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ]
+}

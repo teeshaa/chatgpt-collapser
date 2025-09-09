@@ -1,0 +1,166 @@
+/* Sidebar container */
+#chatgpt-sidebar {
+  position: fixed;
+  top: 80px;
+  right: 0;
+  height: 70%;
+  width: 22vw;              /* relative to screen width */
+  min-width: 200px;         /* don’t shrink too much */
+  max-width: 350px;         /* don’t grow too big */
+  overflow-y: auto;
+  border: 1px solid;
+  border-radius: 8px 0 0 8px;
+  padding: 8px;
+  font-family: sans-serif;
+  font-size: 14px;
+  z-index: 999999;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+/* Hidden state (collapsed to right) */
+#chatgpt-sidebar.hidden {
+  transform: translateX(100%);
+}
+
+/* Floating button to bring sidebar back */
+#sidebar-float-btn {
+  position: fixed;
+  top: 100px;
+  right: 10px;
+  z-index: 1000000;
+  border-radius: 50%;
+  font-size: 16px;
+  padding: 6px 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Header with expand all + collapse button */
+#sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+#sidebar-header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Sidebar list */
+#question-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px 0;
+  gap: 4px;
+}
+
+.sidebar-item span {
+  cursor: pointer;
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+/* Collapsed answers */
+.collapsed {
+  max-height: 50px !important;
+  overflow: hidden;
+  opacity: 0.6;
+}
+
+/* Collapse/expand buttons */
+.collapse-btn,
+.sidebar-toggle-btn,
+#sidebar-header button {
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Light mode */
+html:not([class*="dark"]) #chatgpt-sidebar,
+html:not([class*="dark"]) #sidebar-float-btn {
+  background: #ffffff;
+  border: 1px solid #ccc;
+  color: #000;
+}
+html:not([class*="dark"]) .collapse-btn,
+html:not([class*="dark"]) .sidebar-toggle-btn,
+html:not([class*="dark"]) #sidebar-header button {
+  background: #eee;
+  color: #000;
+  border: 1px solid #aaa;
+}
+
+/* Dark mode */
+html[class*="dark"] #chatgpt-sidebar,
+html[class*="dark"] #sidebar-float-btn {
+  background: #1e1e1e;
+  border: 1px solid #555;
+  color: #ddd;
+}
+html[class*="dark"] .collapse-btn,
+html[class*="dark"] .sidebar-toggle-btn,
+html[class*="dark"] #sidebar-header button {
+  background: #444;
+  color: #fff;
+  border: 1px solid #888;
+}
+
+/* 📱 Extra responsiveness with media queries */
+@media screen and (max-width: 1200px) {
+  #chatgpt-sidebar {
+    width: 26vw;
+    max-width: 300px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  #chatgpt-sidebar {
+    width: 30vw;
+    min-width: 180px;
+    max-width: 260px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #chatgpt-sidebar {
+    width: 40vw;
+    min-width: 160px;
+    max-width: 220px;
+  }
+}
+
+.sidebar-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px 0;
+  gap: 4px;
+}
+
+.sidebar-item span {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+/* Sidebar buttons */
+.sidebar-goto-btn,
+.sidebar-toggle-btn {
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
