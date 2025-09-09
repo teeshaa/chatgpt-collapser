@@ -126,8 +126,12 @@ function addCollapsers() {
             li.appendChild(toggleBtn);
             qList.appendChild(li);
         }
-
     });
+    
+    // ✅ Scroll sidebar to latest question
+    if (qList && qList.lastElementChild) {
+        qList.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
 }
 
 createSidebar();
