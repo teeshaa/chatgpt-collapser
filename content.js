@@ -74,13 +74,13 @@ function createSidebar() {
     const searchToggle = document.getElementById("search-toggle");
     const searchContainer = document.getElementById("search-container");
     const searchInput = document.getElementById("search-input");
-    
+
     if (searchToggle && searchContainer) {
         searchToggle.setAttribute("title", "Toggle Search");
         searchToggle.onclick = () => {
             const isVisible = searchContainer.style.display !== "none";
             searchContainer.style.display = isVisible ? "none" : "block";
-            
+
             if (!isVisible) {
                 // Focus the input when showing search
                 searchToggle.classList.add("active");
@@ -123,12 +123,12 @@ function addCollapsers() {
 
     const qList = document.getElementById("question-list");
     if (!qList) return;
-    
+
     // Hide search box when chat changes (new messages detected)
     const searchContainer = document.getElementById("search-container");
     const searchToggle = document.getElementById("search-toggle");
     const searchInput = document.getElementById("search-input");
-    
+
     if (searchContainer && searchContainer.style.display !== "none") {
         searchContainer.style.display = "none";
         if (searchToggle) searchToggle.classList.remove("active");
@@ -137,7 +137,7 @@ function addCollapsers() {
             filterQuestions("");
         }
     }
-    
+
     qList.innerHTML = ""; // clear old list
 
     // Ensure answer collapse buttons exist
@@ -205,7 +205,7 @@ function addCollapsers() {
         li.appendChild(toggleBtn);
         qList.appendChild(li);
     });
-    
+
     // Scroll sidebar to end/start depending on sort order
     // if (qList && qList.children.length > 0) {
     //     if (asc && qList.lastElementChild) {
@@ -226,9 +226,9 @@ function filterQuestions(searchTerm) {
     items.forEach(item => {
         const questionText = item.querySelector("span").textContent.toLowerCase();
         const matches = questionText.includes(term);
-        
+
         item.style.display = matches ? "flex" : "none";
-        
+
         // Add highlight effect for matched text
         if (matches && term) {
             item.style.backgroundColor = "rgba(59, 130, 246, 0.1)";
@@ -240,7 +240,7 @@ function filterQuestions(searchTerm) {
     // Show "No results" message if no matches
     let noResultsMsg = document.getElementById("no-results-msg");
     const visibleItems = Array.from(items).filter(item => item.style.display !== "none");
-    
+
     if (visibleItems.length === 0 && term) {
         if (!noResultsMsg) {
             noResultsMsg = document.createElement("div");
@@ -305,3 +305,46 @@ observer.observe(document.body, { childList: true, subtree: true });
 // Initial build
 debouncedAddCollapsers();
 
+//keyboard shortcut keys
+
+document.addEventListener("keydown", (e) => {
+    // Avoid triggering inside input/textarea
+    if (["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) return;
+
+    // Ctrl+Shift+f for search toggle
+    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === "f") {
+        e.preventDefault();
+        const sortBtn = document.getElementById("search-toggle");
+        if (sortBtn) {
+            sortBtn.click();
+            console.log("✅ Search button clicked by shortcut");
+        } else {
+            console.warn("⚠️ No sort-toggle button found");
+        }
+    }
+
+    // Ctrl+Shift+s for sort toggle
+    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        const sortBtn = document.getElementById("sort-toggle");
+        if (sortBtn) {
+            sortBtn.click();
+            console.log("✅ Sort toggle button clicked by shortcut");
+        } else {
+            console.warn("⚠️ No sort-toggle button found");
+        }
+    }
+
+    // Ctrl+Shift+e for expand all/collapse all toggle
+    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === "x") {
+        e.preventDefault();
+        const sortBtn = document.getElementById("toggle-all");
+        if (sortBtn) {
+            sortBtn.click();
+            console.log("✅ Expand all/Collapse all toggle button clicked by shortcut");
+        } else {
+            console.warn("⚠️ No sort-toggle button found");
+        }
+    }
+
+});

@@ -316,7 +316,7 @@ html[class*="dark"] #search-toggle.active {
     width: 26vw;
     max-width: 300px;
     top: 70px;
-    height: calc(100vh - 90px);
+    height: 70vh;
   }
   
   #sidebar-float-btn {
@@ -332,7 +332,7 @@ html[class*="dark"] #search-toggle.active {
     min-width: 180px;
     max-width: 260px;
     top: 60px;
-    height: calc(100vh - 80px);
+    height: 70vh;
     padding: 10px;
   }
   
@@ -360,7 +360,7 @@ html[class*="dark"] #search-toggle.active {
     min-width: 160px;
     max-width: 220px;
     top: 50px;
-    height: calc(100vh - 70px);
+    height: 70vh;
     padding: 8px;
   }
   
@@ -393,7 +393,7 @@ html[class*="dark"] #search-toggle.active {
     min-width: 140px;
     max-width: 200px;
     top: 40px;
-    height: calc(100vh - 60px);
+    height: 70vh;
     padding: 6px;
   }
   

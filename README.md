@@ -58,3 +58,13 @@ ChatGPT Collapser loaded ✅
 If you see that message, the content script injected correctly and the sidebar should appear.
 
 ---
+
+🔑 Keyboard Shortcuts
+
+The extension supports quick access with keyboard shortcuts:
+
+Ctrl + Alt + f → Focus the Search box in sidebar
+
+Ctrl + Alt + s → Toggle question sorting (Ascending / Descending)
+
+Ctrl + Alt + x → Toggle Expand All / Collapse All
