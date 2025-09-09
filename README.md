@@ -1,6 +1,6 @@
 # ChatGPT Answer Collapser — README
 
-A small Chrome extension that makes long ChatGPT conversations easy to navigate by adding a scrollable sidebar with question indexes, per-answer collapse/expand controls, **Jump** buttons, a global **Expand All / Collapse All** control, and a floating restore button when the sidebar is hidden. Works with ChatGPT light/dark theme.
+A small Chrome extension that makes long ChatGPT conversations easy to navigate by adding a searchable/scrollable sidebar with question indexes, per-answer collapse/expand controls, **Jump** buttons, a global **Expand All / Collapse All** control, and a floating restore button when the sidebar is hidden. Works with ChatGPT light/dark theme.
 
 ---
 
@@ -10,6 +10,7 @@ A small Chrome extension that makes long ChatGPT conversations easy to navigate 
 * Per-answer **Jump** button (jumps to the answer)
 * Per-answer **Expand / Collapse** button (in sidebar and inside answers)
 * Global **Expand All / Collapse All** button
+* Searchable sidebar
 * Question sorting (Ascending / Descending) in sidebar
 * Sidebar can be collapsed to the right;
 * Dark / Light mode compatibility

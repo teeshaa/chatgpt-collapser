@@ -8,12 +8,16 @@ function createSidebar() {
 
     sidebar.innerHTML = `
     <div id="sidebar-header">
-      <h3>📑 Questions</h3>
+      <h3>📌 Questions</h3>
       <div>
+        <button id="search-toggle">🔍</button>
         <button id="sort-toggle">☰</button>
         <button id="toggle-all">Expand All</button>
         <button id="collapse-sidebar">▶</button>
       </div>
+    </div>
+    <div id="search-container" style="display: none;">
+      <input type="text" id="search-input" placeholder="Search questions..." />
     </div>
     <ul id="question-list"></ul>
   `;
@@ -66,6 +70,37 @@ function createSidebar() {
         };
     }
 
+    // Search toggle functionality
+    const searchToggle = document.getElementById("search-toggle");
+    const searchContainer = document.getElementById("search-container");
+    const searchInput = document.getElementById("search-input");
+    
+    if (searchToggle && searchContainer) {
+        searchToggle.setAttribute("title", "Toggle Search");
+        searchToggle.onclick = () => {
+            const isVisible = searchContainer.style.display !== "none";
+            searchContainer.style.display = isVisible ? "none" : "block";
+            
+            if (!isVisible) {
+                // Focus the input when showing search
+                searchToggle.classList.add("active");
+                setTimeout(() => searchInput.focus(), 100);
+            } else {
+                // Clear search when hiding
+                searchToggle.classList.remove("active");
+                searchInput.value = "";
+                filterQuestions("");
+            }
+        };
+    }
+
+    // Search functionality
+    if (searchInput) {
+        searchInput.oninput = () => {
+            filterQuestions(searchInput.value);
+        };
+    }
+
     // Sidebar collapse button
     document.getElementById("collapse-sidebar").onclick = () => {
         const sidebar = document.getElementById("chatgpt-sidebar");
@@ -88,6 +123,21 @@ function addCollapsers() {
 
     const qList = document.getElementById("question-list");
     if (!qList) return;
+    
+    // Hide search box when chat changes (new messages detected)
+    const searchContainer = document.getElementById("search-container");
+    const searchToggle = document.getElementById("search-toggle");
+    const searchInput = document.getElementById("search-input");
+    
+    if (searchContainer && searchContainer.style.display !== "none") {
+        searchContainer.style.display = "none";
+        if (searchToggle) searchToggle.classList.remove("active");
+        if (searchInput) {
+            searchInput.value = "";
+            filterQuestions("");
+        }
+    }
+    
     qList.innerHTML = ""; // clear old list
 
     // Ensure answer collapse buttons exist
@@ -164,6 +214,50 @@ function addCollapsers() {
     //         qList.firstElementChild.scrollIntoView({ behavior: "smooth", block: "start" });
     //     }
     // }
+}
+
+function filterQuestions(searchTerm) {
+    const qList = document.getElementById("question-list");
+    if (!qList) return;
+
+    const items = qList.querySelectorAll(".sidebar-item");
+    const term = searchTerm.toLowerCase().trim();
+
+    items.forEach(item => {
+        const questionText = item.querySelector("span").textContent.toLowerCase();
+        const matches = questionText.includes(term);
+        
+        item.style.display = matches ? "flex" : "none";
+        
+        // Add highlight effect for matched text
+        if (matches && term) {
+            item.style.backgroundColor = "rgba(59, 130, 246, 0.1)";
+        } else {
+            item.style.backgroundColor = "";
+        }
+    });
+
+    // Show "No results" message if no matches
+    let noResultsMsg = document.getElementById("no-results-msg");
+    const visibleItems = Array.from(items).filter(item => item.style.display !== "none");
+    
+    if (visibleItems.length === 0 && term) {
+        if (!noResultsMsg) {
+            noResultsMsg = document.createElement("div");
+            noResultsMsg.id = "no-results-msg";
+            noResultsMsg.style.cssText = `
+                text-align: center;
+                padding: 20px;
+                color: #6b7280;
+                font-style: italic;
+            `;
+            noResultsMsg.textContent = "No questions found";
+            qList.appendChild(noResultsMsg);
+        }
+        noResultsMsg.style.display = "block";
+    } else if (noResultsMsg) {
+        noResultsMsg.style.display = "none";
+    }
 }
 
 createSidebar();
