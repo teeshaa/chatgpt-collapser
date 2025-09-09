@@ -13,7 +13,7 @@
   padding: 8px;
   font-family: sans-serif;
   font-size: 14px;
-  z-index: 9980;
+  z-index: 10;              /* keep below site popovers/menus */
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   transition: transform 0.3s ease;
 }
@@ -28,7 +28,7 @@
   position: fixed;
   top: 200px;
   right: 10px;
-  z-index: 1000000;
+  z-index: 11;             /* slightly above sidebar but below site popovers */
   border-radius: 50%;
   font-size: 16px;
   padding: 6px 10px;
@@ -43,6 +43,23 @@
   align-items: center;
   margin-bottom: 6px;
   flex-wrap: wrap;
+  position: sticky;        /* keep header visible while list scrolls */
+  top: 0;
+  z-index: 1;
+  background: inherit;     /* match sidebar theme */
+  padding-top: 6px;        /* slight padding so sticky looks clean */
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Adjust sticky header border color per theme */
+html:not([class*="dark"]) #sidebar-header {
+  background: inherit;
+  color: inherit;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+html[class*="dark"] #sidebar-header {
+  border-bottom: 1px solid rgba(255,255,255,0.12);
 }
 
 #sidebar-header h3 {
@@ -78,9 +95,16 @@
   opacity: 0.6;
 }
 
+/* Ensure all message content (including canvas/svg) is hidden when collapsed,
+   while keeping the collapse button visible */
+div[data-message-author-role='assistant'].collapsed > :not(.collapse-btn) {
+  display: none !important;
+}
+
 /* Collapse/expand buttons */
 .collapse-btn,
 .sidebar-toggle-btn,
+.sidebar-goto-btn,
 #sidebar-header button {
   font-size: 12px;
   padding: 2px 6px;
@@ -95,12 +119,13 @@ html:not([class*="dark"]) #sidebar-float-btn {
   border: 1px solid #ccc;
   color: #000;
 }
-html:not([class*="dark"]) .collapse-btn,
-html:not([class*="dark"]) .sidebar-toggle-btn,
-html:not([class*="dark"]) #sidebar-header button {
-  background: #eee;
-  color: #000;
-  border: 1px solid #aaa;
+html:not([class*="dark"]) #chatgpt-sidebar .collapse-btn,
+html:not([class*="dark"]) #chatgpt-sidebar .sidebar-toggle-btn,
+html:not([class*="dark"]) #chatgpt-sidebar .sidebar-goto-btn,
+html:not([class*="dark"]) #chatgpt-sidebar #sidebar-header button {
+  background: #000;
+  color: #fff;
+  border: 1px solid #000;
 }
 
 /* Dark mode */
@@ -110,9 +135,10 @@ html[class*="dark"] #sidebar-float-btn {
   border: 1px solid #555;
   color: #ddd;
 }
-html[class*="dark"] .collapse-btn,
-html[class*="dark"] .sidebar-toggle-btn,
-html[class*="dark"] #sidebar-header button {
+html[class*="dark"] #chatgpt-sidebar .collapse-btn,
+html[class*="dark"] #chatgpt-sidebar .sidebar-toggle-btn,
+html[class*="dark"] #chatgpt-sidebar .sidebar-goto-btn,
+html[class*="dark"] #chatgpt-sidebar #sidebar-header button {
   background: #444;
   color: #fff;
   border: 1px solid #888;
