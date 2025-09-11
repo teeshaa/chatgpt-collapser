@@ -185,7 +185,7 @@ function addCollapsers() {
         goBtn.className = "sidebar-goto-btn";
         goBtn.innerText = "Jump";
         goBtn.onclick = () => {
-            answer.scrollIntoView({ behavior: "smooth", block: "center" });
+            answer.scrollIntoView({ behavior: "smooth", block: "start" });
         };
 
         const toggleBtn = document.createElement("button");
@@ -312,7 +312,7 @@ document.addEventListener("keydown", (e) => {
     if (["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) return;
 
     // Ctrl+Shift+f for search toggle
-    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === "f") {
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "f") {
         e.preventDefault();
         const sortBtn = document.getElementById("search-toggle");
         if (sortBtn) {
@@ -323,8 +323,8 @@ document.addEventListener("keydown", (e) => {
         }
     }
 
-    // Ctrl+Shift+s for sort toggle
-    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === "s") {
+    // Ctrl+Shift+z for sort toggle
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "z") {
         e.preventDefault();
         const sortBtn = document.getElementById("sort-toggle");
         if (sortBtn) {
@@ -335,8 +335,8 @@ document.addEventListener("keydown", (e) => {
         }
     }
 
-    // Ctrl+Shift+e for expand all/collapse all toggle
-    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === "x") {
+    // Ctrl+Shift+x for expand all/collapse all toggle
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "x") {
         e.preventDefault();
         const sortBtn = document.getElementById("toggle-all");
         if (sortBtn) {
@@ -348,3 +348,4 @@ document.addEventListener("keydown", (e) => {
     }
 
 });
+
