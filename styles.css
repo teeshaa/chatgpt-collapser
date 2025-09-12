@@ -1,147 +1,427 @@
-/* Sidebar container */
+/* ChatGPT Collapser v2.0 - Clean & Compact Design */
+
+/* Base sidebar container */
 #chatgpt-sidebar {
   position: fixed;
-  top: 80px;                /* reduced from 100px for better mobile fit */
-  right: 20px;              /* add margin to keep chat scrollbar visible */
-  height: 70vh; /* better height calculation */
-  width: 22vw;              /* relative to screen width */
-  min-width: 200px;         /* don't shrink too much */
-  max-width: 350px;         /* don't grow too big */
+  top: 50%;
+  transform: translateY(-50%);
+  height: 450px;
+  width: 320px;
   overflow-y: auto;
-  overflow-x: hidden;       /* prevent horizontal scroll */
-  border: 1px solid;
-  border-radius: 8px;       /* full border radius since not touching edge */
-  padding: 12px;            /* increased for better touch targets */
+  overflow-x: hidden;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 14px;
-  z-index: 10;              /* keep below site popovers/menus */
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  transition: transform 0.3s ease;
-  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  font-size: 13px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Hidden state (collapsed to right) */
+/* Position-specific styles */
+.sidebar-right {
+  right: 16px;
+}
+
+.sidebar-left {
+  left: 16px;
+}
+
+/* Arc browser adjustments */
+.sidebar-left.arc-browser-adjusted {
+  left: 88px;
+}
+
+/* Hidden state */
 #chatgpt-sidebar.hidden {
-  transform: translateX(100%);
+  transform: translateY(-50%) translateX(calc(100% + 20px));
 }
 
-/* Floating button to bring sidebar back */
+.sidebar-left.hidden {
+  transform: translateY(-50%) translateX(calc(-100% - 20px));
+}
+
+/* Floating button */
 #sidebar-float-btn {
   position: fixed;
   top: 50%;
-  right: 30px;             /* adjust position to match sidebar margin */
   transform: translateY(-50%);
-  z-index: 11;             /* slightly above sidebar but below site popovers */
-  border-radius: 8px;      /* compact rounded corners */
+  z-index: 1001;
+  border-radius: 6px;
   font-size: 14px;
-  padding: 8px 12px;       /* compact padding */
+  padding: 8px 12px;
   cursor: pointer;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-  min-width: 36px;         /* compact size */
-  min-height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   border: 1px solid;
   font-weight: 500;
-  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
 }
 
-#sidebar-float-btn:hover {
-  transform: translateY(-50%) scale(1.08);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+.float-btn-right {
+  right: 16px;
 }
 
-#sidebar-float-btn:active {
-  transform: translateY(-50%) scale(0.96);
+.float-btn-left {
+  left: 16px;
 }
 
-/* Header with expand all + collapse button */
+/* Header */
 #sidebar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
-  gap: 16px;              /* further increased space between elements */
-  position: sticky;        /* keep header visible while list scrolls */
-  top: 0;
-  z-index: 1;
-  background: inherit;     /* match sidebar theme */
-  padding: 8px 0;         /* better padding */
+  padding: 12px 16px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
-  backdrop-filter: blur(10px); /* subtle blur effect for sticky header */
+  background: rgba(0,0,0,0.02);
+  flex-shrink: 0;
 }
 
-/* Adjust sticky header border color per theme */
-html:not([class*="dark"]) #sidebar-header {
-  background: inherit;
-  color: inherit;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-html[class*="dark"] #sidebar-header {
-  border-bottom: 1px solid rgba(255,255,255,0.12);
+
+.header-left h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#question-count {
+  background: rgba(0,0,0,0.1);
+  color: inherit;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.header-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.header-controls button {
+  padding: 6px 8px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(255,255,255,0.8);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.15s ease;
+  min-width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-controls button:hover {
+  background: rgba(0,0,0,0.05);
+  transform: translateY(-1px);
+}
+
+.header-controls button.active {
+  background: #007AFF;
+  color: white;
+  border-color: #007AFF;
 }
 
 /* Search container */
 #search-container {
-  margin-bottom: 8px;
-  padding: 0 4px;
-  transition: all 0.3s ease;
-  overflow: hidden;
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  background: rgba(0,0,0,0.01);
 }
 
 #search-input {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid;
-  border-radius: 12px;
-  font-size: 14px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: inherit;
-  color: inherit;
-  transition: all 0.2s ease;
+  padding: 6px 10px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 4px;
+  font-size: 12px;
+  background: white;
   box-sizing: border-box;
-  resize: none;
-  line-height: 1.4;
 }
 
 #search-input:focus {
   outline: none;
-  border-color: #10a37f;
+  border-color: #007AFF;
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
 }
 
-#search-input::placeholder {
-  color: #9ca3af;
-  opacity: 1;
-  font-weight: 400;
+/* Favorites view */
+#favorites-view {
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  background: rgba(255, 215, 0, 0.05);
 }
 
-#sidebar-header h3 {
-  margin: 0;
-  font-size: 1rem;
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 500;
 }
 
-/* Sidebar list */
-#question-list {
+.section-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  padding: 2px 4px;
+}
+
+/* Question list */
+#question-list, #favorites-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  flex: 1;
+  overflow-y: auto;
 }
 
 .sidebar-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin: 4px 0;
-  gap: 4px;
+  padding: 8px 16px;
+  gap: 8px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  transition: background-color 0.15s ease;
+  cursor: pointer;
 }
 
-.sidebar-item span {
-  cursor: pointer;
+.sidebar-item:hover {
+  background: rgba(0,0,0,0.03);
+}
+
+.sidebar-item.search-highlight {
+  background: rgba(0, 122, 255, 0.1);
+  border-left: 2px solid #007AFF;
+}
+
+.favorite-item {
+  background: rgba(255, 215, 0, 0.08);
+}
+
+.question-number {
+  background: rgba(0,0,0,0.1);
+  color: inherit;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.question-text {
   flex: 1;
-  font-size: 0.9rem;
+  font-size: 12px;
+  line-height: 1.3;
+  color: inherit;
+  margin-right: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-buttons {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.sidebar-buttons button {
+  padding: 4px 6px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(255,255,255,0.8);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+  min-width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.sidebar-buttons button:hover {
+  background: rgba(0,0,0,0.05);
+  transform: translateY(-1px);
+}
+
+.sidebar-goto-btn {
+  background: #007AFF !important;
+  color: white !important;
+  border-color: #007AFF !important;
+  font-weight: 500;
+}
+
+.sidebar-goto-btn:hover {
+  background: #0056b3 !important;
+  box-shadow: 0 2px 4px rgba(0, 122, 255, 0.3);
+}
+
+.sidebar-favorite-btn {
+  font-size: 12px;
+}
+
+/* Footer */
+#sidebar-footer {
+  border-top: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0,0,0,0.02);
+  flex-shrink: 0;
+}
+
+#load-more-container {
+  padding: 8px 16px;
+  text-align: center;
+}
+
+#load-more-btn {
+  width: 100%;
+  padding: 6px 12px;
+  background: #007AFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background-color 0.15s ease;
+}
+
+#load-more-btn:hover {
+  background: #0056b3;
+}
+
+.footer-controls {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 16px;
+}
+
+.footer-controls button {
+  padding: 4px 8px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(255,255,255,0.8);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 0.15s ease;
+}
+
+.footer-controls button:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+/* Settings Modal */
+#settings-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  width: 320px;
+  max-width: 90vw;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#close-settings {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #666;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+
+#close-settings:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.setting-group {
+  margin-bottom: 16px;
+}
+
+.setting-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.checkbox-label {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.setting-group select,
+.setting-group input[type="number"] {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 4px;
+  font-size: 13px;
+  background: white;
+  box-sizing: border-box;
+}
+
+.setting-group input[type="checkbox"] {
+  margin: 0;
 }
 
 /* Collapsed answers */
@@ -151,332 +431,219 @@ html[class*="dark"] #sidebar-header {
   opacity: 0.6;
 }
 
-/* Ensure all message content (including canvas/svg) is hidden when collapsed,
-   while keeping the collapse button visible */
 div[data-message-author-role='assistant'].collapsed > :not(.collapse-btn) {
   display: none !important;
 }
 
-/* Collapse/expand buttons */
-.collapse-btn,
-.sidebar-toggle-btn,
-.sidebar-goto-btn,
-#sidebar-header button {
-  font-size: 12px;
-  padding: 4px 8px;       /* reduced padding */
-  border-radius: 6px;
+/* Collapse button */
+.collapse-btn {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 4px;
   cursor: pointer;
-  min-height: 28px;       /* reduced minimum touch target */
-  min-width: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  border: none;
+  background: rgba(255,255,255,0.9);
+  color: #333;
+  border: 1px solid rgba(0,0,0,0.2);
   font-weight: 500;
+  transition: all 0.15s ease;
 }
 
-.collapse-btn:hover,
-.sidebar-toggle-btn:hover,
-.sidebar-goto-btn:hover,
-#sidebar-header button:hover {
+.collapse-btn:hover {
+  background: rgba(0,0,0,0.05);
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
-/* Light mode hover effects */
-html:not([class*="dark"]) .collapse-btn:hover,
-html:not([class*="dark"]) .sidebar-toggle-btn:hover,
-html:not([class*="dark"]) .sidebar-goto-btn:hover,
-html:not([class*="dark"]) #sidebar-header button:hover {
-  background: #e5e7eb;
-  border-color: #9ca3af;
+/* No results message */
+.no-results {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
+  font-size: 12px;
 }
 
-/* Dark mode hover effects */
-html[class*="dark"] .collapse-btn:hover,
-html[class*="dark"] .sidebar-toggle-btn:hover,
-html[class*="dark"] .sidebar-goto-btn:hover,
-html[class*="dark"] #sidebar-header button:hover {
-  background: #525252;
-  border-color: #a3a3a3;
-}
-
-/* Light mode */
+/* Light mode styles */
 html:not([class*="dark"]) #chatgpt-sidebar,
-html:not([class*="dark"]) #sidebar-float-btn {
-  background: #ffffff;
-  border: 1px solid #ccc;
-  color: #000;
-}
-
-html:not([class*="dark"]) #sidebar-float-btn {
+html:not([class*="dark"]) #sidebar-float-btn,
+html:not([class*="dark"]) .modal-content {
   background: rgba(255, 255, 255, 0.95);
-  border: 1px solid #e5e7eb;
-  color: #374151;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-color: rgba(0,0,0,0.1);
+  color: #1a1a1a;
 }
 
-html:not([class*="dark"]) #sidebar-float-btn:hover {
-  background: rgba(255, 255, 255, 1);
-  border-color: #d1d5db;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+html:not([class*="dark"]) #sidebar-header,
+html:not([class*="dark"]) #search-container,
+html:not([class*="dark"]) #sidebar-footer {
+  background: rgba(0,0,0,0.02);
+  border-color: rgba(0,0,0,0.1);
 }
 
-/* Light mode search input */
-html:not([class*="dark"]) #search-input {
-  background: #ffffff;
-  border-color: #d1d5db;
-  color: #374151;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-html:not([class*="dark"]) #search-input:focus {
-  background: #ffffff;
-  border-color: #10a37f;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-html:not([class*="dark"]) #search-input::placeholder {
-  color: #9ca3af;
-}
-html:not([class*="dark"]) #chatgpt-sidebar .collapse-btn,
-html:not([class*="dark"]) #chatgpt-sidebar .sidebar-toggle-btn,
-html:not([class*="dark"]) #chatgpt-sidebar .sidebar-goto-btn,
-html:not([class*="dark"]) #chatgpt-sidebar #sidebar-header button {
-  background: #f7f7f8;
-  color: #374151;
-  border: 1px solid #d1d5db;
-}
-
-/* Search toggle button active state */
-html:not([class*="dark"]) #search-toggle.active {
-  background: #3b82f6;
-  color: #ffffff;
-  border-color: #2563eb;
-}
-
-/* Dark mode */
+/* Dark mode styles */
 html[class*="dark"] #chatgpt-sidebar,
-html[class*="dark"] #sidebar-float-btn {
-  background: #1e1e1e;
-  border: 1px solid #555;
-  color: #ddd;
+html[class*="dark"] #sidebar-float-btn,
+html[class*="dark"] .modal-content {
+  background: rgba(32, 33, 35, 0.95);
+  border-color: rgba(255,255,255,0.1);
+  color: #ececec;
 }
 
-html[class*="dark"] #sidebar-float-btn {
-  background: rgba(30, 30, 30, 0.95);
-  border: 1px solid #4b5563;
-  color: #e5e7eb;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+html[class*="dark"] #sidebar-header,
+html[class*="dark"] #search-container,
+html[class*="dark"] #sidebar-footer {
+  background: rgba(255,255,255,0.02);
+  border-color: rgba(255,255,255,0.1);
 }
 
-html[class*="dark"] #sidebar-float-btn:hover {
-  background: rgba(30, 30, 30, 1);
-  border-color: #6b7280;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+html[class*="dark"] #search-input,
+html[class*="dark"] .setting-group select,
+html[class*="dark"] .setting-group input[type="number"] {
+  background: rgba(64, 65, 79, 0.8);
+  border-color: rgba(255,255,255,0.2);
+  color: #ececec;
 }
 
-/* Dark mode search input */
-html[class*="dark"] #search-input {
-  background: #2d2d2d;
-  border-color: #4b5563;
-  color: #e5e7eb;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+html[class*="dark"] .header-controls button,
+html[class*="dark"] .sidebar-buttons button,
+html[class*="dark"] .footer-controls button {
+  background: rgba(64, 65, 79, 0.8);
+  border-color: rgba(255,255,255,0.1);
+  color: #ececec;
 }
 
-html[class*="dark"] #search-input:focus {
-  background: #2d2d2d;
-  border-color: #10a37f;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+html[class*="dark"] .header-controls button:hover,
+html[class*="dark"] .sidebar-buttons button:hover,
+html[class*="dark"] .footer-controls button:hover {
+  background: rgba(255,255,255,0.1);
 }
 
-html[class*="dark"] #search-input::placeholder {
-  color: #9ca3af;
-}
-html[class*="dark"] #chatgpt-sidebar .collapse-btn,
-html[class*="dark"] #chatgpt-sidebar .sidebar-toggle-btn,
-html[class*="dark"] #chatgpt-sidebar .sidebar-goto-btn,
-html[class*="dark"] #chatgpt-sidebar #sidebar-header button {
-  background: #444;
-  color: #fff;
-  border: 1px solid #888;
+html[class*="dark"] .sidebar-item:hover {
+  background: rgba(255,255,255,0.05);
 }
 
-/* Search toggle button active state for dark mode */
-html[class*="dark"] #search-toggle.active {
-  background: #3b82f6;
-  color: #ffffff;
-  border-color: #2563eb;
+html[class*="dark"] .sidebar-item.search-highlight {
+  background: rgba(0, 122, 255, 0.15);
 }
 
-/* 📱 Responsive design with improved mobile support */
+html[class*="dark"] #question-count {
+  background: rgba(255,255,255,0.1);
+}
+
+html[class*="dark"] .question-number {
+  background: rgba(255,255,255,0.1);
+}
+
+html[class*="dark"] .collapse-btn {
+  background: rgba(64, 65, 79, 0.8);
+  border-color: rgba(255,255,255,0.2);
+  color: #ececec;
+}
+
+html[class*="dark"] .collapse-btn:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Responsive design */
 @media screen and (max-width: 1200px) {
   #chatgpt-sidebar {
-    width: 26vw;
-    max-width: 300px;
-    top: 70px;
-    height: 70vh;
-  }
-  
-  #sidebar-float-btn {
-    right: 8px;
-    font-size: 16px;
-    padding: 10px 14px;
+    width: 300px;
+    height: 420px;
   }
 }
 
 @media screen and (max-width: 900px) {
   #chatgpt-sidebar {
-    width: 30vw;
-    min-width: 180px;
-    max-width: 260px;
-    top: 60px;
-    height: 70vh;
-    padding: 10px;
-  }
-  
-  #sidebar-header {
-    gap: 6px;
-  }
-  
-  #sidebar-header h3 {
-    font-size: 0.9rem;
+    width: 280px;
+    height: 400px;
   }
   
   .sidebar-item {
-    gap: 6px;
-    margin: 6px 0;
+    padding: 6px 12px;
   }
   
-  .sidebar-item span {
-    font-size: 0.85rem;
+  .question-text {
+    font-size: 11px;
   }
 }
 
 @media screen and (max-width: 600px) {
   #chatgpt-sidebar {
-    width: 40vw;
-    min-width: 160px;
-    max-width: 220px;
-    top: 50px;
-    height: 70vh;
-    padding: 8px;
+    width: 260px;
+    height: 380px;
   }
   
-  .collapse-btn,
-  .sidebar-toggle-btn,
-  .sidebar-goto-btn,
-  #sidebar-header button {
+  .header-controls {
+    gap: 2px;
+  }
+  
+  .header-controls button {
+    min-width: 24px;
+    height: 24px;
     font-size: 11px;
-    padding: 4px 8px;
-    min-height: 28px;
-    min-width: 28px;
-  }
-  
-  #sidebar-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 4px;
-  }
-  
-  #sidebar-header > div {
-    display: flex;
-    justify-content: space-between;
-    gap: 4px;
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-height: 500px) {
   #chatgpt-sidebar {
-    width: 50vw;
-    min-width: 140px;
-    max-width: 200px;
-    top: 40px;
-    height: 70vh;
-    padding: 6px;
+    height: 90vh;
+    top: 5vh;
+    transform: none;
+  }
+  
+  #chatgpt-sidebar.hidden {
+    transform: translateX(calc(100% + 20px));
+  }
+  
+  .sidebar-left.hidden {
+    transform: translateX(calc(-100% - 20px));
+  }
+}
+
+/* Scrollbar styling */
+#chatgpt-sidebar::-webkit-scrollbar,
+#question-list::-webkit-scrollbar,
+#favorites-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+#chatgpt-sidebar::-webkit-scrollbar-track,
+#question-list::-webkit-scrollbar-track,
+#favorites-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#chatgpt-sidebar::-webkit-scrollbar-thumb,
+#question-list::-webkit-scrollbar-thumb,
+#favorites-list::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 2px;
+}
+
+html[class*="dark"] #chatgpt-sidebar::-webkit-scrollbar-thumb,
+html[class*="dark"] #question-list::-webkit-scrollbar-thumb,
+html[class*="dark"] #favorites-list::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+}
+
+/* Focus styles for accessibility */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #007AFF;
+  outline-offset: 2px;
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  #chatgpt-sidebar {
+    border-width: 2px;
   }
   
   .sidebar-item {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 4px;
-    margin: 8px 0;
-    padding: 4px;
-    border-radius: 4px;
-    background: rgba(0,0,0,0.02);
+    border-bottom-width: 2px;
   }
   
-  .sidebar-item span {
-    text-align: center;
-    margin-bottom: 4px;
+  button {
+    border-width: 2px;
+    font-weight: 600;
   }
-  
-  .sidebar-item > div {
-    display: flex;
-    justify-content: space-between;
-    gap: 4px;
-  }
-}
-
-.sidebar-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 4px 0;
-  gap: 4px;
-  padding: 4px;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.sidebar-item:hover {
-  background-color: rgba(0,0,0,0.05);
-  transform: translateX(2px);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-/* Light mode hover effects for sidebar items */
-html:not([class*="dark"]) .sidebar-item:hover {
-  background-color: #f3f4f6;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-/* Dark mode hover effects for sidebar items */
-html[class*="dark"] .sidebar-item:hover {
-  background-color: rgba(255,255,255,0.05);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-.sidebar-item span {
-  cursor: pointer;
-  flex: 1;
-  font-size: 0.9rem;
-  line-height: 1.3;
-  word-break: break-word;
-}
-
-/* Sidebar buttons */
-.sidebar-goto-btn,
-.sidebar-toggle-btn {
-  font-size: 12px;
-  padding: 3px 6px;       /* further reduced padding */
-  border-radius: 6px;
-  cursor: pointer;
-  white-space: nowrap;
-  min-height: 26px;       /* further reduced minimum size */
-  min-width: 26px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  border: none;
-  font-weight: 500;
-}
-
-.sidebar-goto-btn:hover,
-.sidebar-toggle-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
